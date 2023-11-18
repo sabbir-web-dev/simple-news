@@ -2,10 +2,11 @@ import React from 'react';
 import './News.css'
 
 const News = (props) => {
-    const {title,urlToImage,url,description}=props.news;
+    console.log(props)
+    const {title,image,url,description}=props.news;
     return (
         <div className="card flex" style={{width: "18rem"}}>
-            <img className="card-img-top"  src={urlToImage} alt="....." />
+            <img className="card-img-top"  src={image} alt="...Img" />
             <div className="card-body">
                 <h5 className="card-title">{title}</h5>
                 <p className="card-text">{description}</p>

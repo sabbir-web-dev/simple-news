@@ -6,34 +6,34 @@ import Header from "./components/Header/Header";
 
 function App() {
   const [news, setNews] = useState(null);
-  const [isLodding, setIsLodding] = useState(true);
+  const [isLodding, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    const url =
-      "https://newsapi.org/v2/top-headlines?country=us&apiKey=8407d7b500094eb290866adedb96213b";
-
-    fetch(url)
-      .then((res) =>{
-        if(!res){
-          throw Error('Data is not Load..');
+    const fetchData = async () => {
+      try {
+        const url = 'https://api.currentsapi.services/v1/latest-news?language=en&apiKey=6EFMeWybcuzW8PAc-XlhwIt9VkluIsfk3p36WKCEMP-UMKGG';
+        const res = await fetch(url);
+  
+        if (!res.ok) {
+          throw Error('Data is not loaded.');
         }
-        else{
-          return res.json();
-        }
-      })
-      .then((data) => {
-        setNews(data.articles);
-        setIsLodding(false);
+  
+        const data = await res.json();
+        setNews(data.news);
+        setIsLoading(false);
         setError(false);
-      })
-
-      .catch((err) =>{
+        console.log(data)
+      } catch (err) {
         setError(err.message);
-        setIsLodding(false);
+        setIsLoading(false);
         setNews(null);
-      });
+      }
+    };
+  
+    fetchData();
   }, []);
+  
 
   return (
     <div className="container">
