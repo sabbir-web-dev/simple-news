@@ -8,7 +8,6 @@ function App() {
   const [news, setNews] = useState(null);
   const [isLodding, setIsLodding] = useState(true);
   const [error, setError] = useState(false);
-  const [totalNews, setTotalNews] = useState(0);
 
   useEffect(() => {
     const url =
@@ -25,7 +24,6 @@ function App() {
       })
       .then((data) => {
         setNews(data.articles);
-        setTotalNews(data.articles.length);
         setIsLodding(false);
         setError(false);
       })
@@ -37,10 +35,9 @@ function App() {
       });
   }, []);
 
-  console.log()
   return (
     <div className="container">
-      <Header news={totalNews}></Header>
+      <Header news={news ? news.length : "0"}></Header>
       {isLodding && <p>Lodding..</p>}
       {error && <p>{error}</p>}
       <div className="conteiner">
