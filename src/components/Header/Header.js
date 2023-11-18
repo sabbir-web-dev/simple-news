@@ -9,7 +9,7 @@ const Header = (props) => {
         <h5 className="card-header">News 69</h5>
         <div className="card-body" style={{background:"lightgray"}}>
             <h1 className="card-title">Breaking News!</h1>
-            <p className="card-text">Top Headline:{news.length} </p>
+            <p className="card-text">Top Headline:{news} </p>
         </div>
         </div>
     );

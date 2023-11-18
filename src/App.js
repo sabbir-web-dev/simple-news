@@ -1,36 +1,51 @@
-
-import './App.css';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import News from './components/news/News';
-import { useEffect, useState } from 'react';
-import Header from './components/Header/Header';
+import "./App.css";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import News from "./components/news/News";
+import { useEffect, useState } from "react";
+import Header from "./components/Header/Header";
 
 function App() {
+  const [news, setNews] = useState(null);
+  const [isLodding, setIsLodding] = useState(true);
+  const [error, setError] = useState(false);
+  const [totalNews, setTotalNews] = useState(0);
 
-  const [news,setNews] = useState([]);
-
-  useEffect(()=>{
-    const url = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=8407d7b500094eb290866adedb96213b';
+  useEffect(() => {
+    const url =
+      "https://newsapi.org/v2/top-headlines?country=us&apiKey=8407d7b500094eb290866adedb96213b";
 
     fetch(url)
-    .then(res=> res.json())
-    .then(data=> { 
-      setNews(data.articles)
-    })
+      .then((res) =>{
+        if(!res){
+          throw Error('Data is not Load..');
+        }
+        else{
+          return res.json();
+        }
+      })
+      .then((data) => {
+        setNews(data.articles);
+        setTotalNews(data.articles.length);
+        setIsLodding(false);
+        setError(false);
+      })
 
-    .catch(err=> console.log(err))
-    
-  },[])
+      .catch((err) =>{
+        setError(err.message);
+        setIsLodding(false);
+        setNews(null);
+      });
+  }, []);
 
+  console.log()
   return (
     <div className="container">
-      <Header news={news}></Header>
+      <Header news={totalNews}></Header>
+      {isLodding && <p>Lodding..</p>}
+      {error && <p>{error}</p>}
       <div className="conteiner">
-      {
-        news.map(news=> <News news={news} key={news.url}></News>)
-      }
+        {news && news.map((news) => <News news={news} key={news.url}></News>)}
       </div>
-
     </div>
   );
 }
